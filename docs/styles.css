@@ -93,4 +93,8 @@ button:hover {
         padding: 2% 4.5%;
         font-size: 3.2vw;
     }
+
+    span {
+        font-size: 4vw;
+    }
 }

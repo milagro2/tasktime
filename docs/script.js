@@ -1,5 +1,5 @@
 // Load saved notes when the page loads
-window.onload = function() {
+window.onload = function () {
     loadNotes();
 };
 
@@ -19,7 +19,7 @@ function addNote() {
         var deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
         deleteButton.className = 'delete-button';
-        deleteButton.onclick = function() {
+        deleteButton.onclick = function () {
             deleteNote(noteText);
             notesContainer.removeChild(noteElement);
         };
@@ -50,7 +50,7 @@ function loadNotes() {
     var notesContainer = document.getElementById('notes-container');
     notesContainer.innerHTML = '';
 
-    notes.forEach(function(noteText) {
+    notes.forEach(function (noteText) {
         var noteElement = document.createElement('div');
         noteElement.className = 'note';
 
@@ -61,7 +61,7 @@ function loadNotes() {
         var deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
         deleteButton.className = 'delete-button';
-        deleteButton.onclick = function() {
+        deleteButton.onclick = function () {
             deleteNote(noteText);
             notesContainer.removeChild(noteElement);
         };
