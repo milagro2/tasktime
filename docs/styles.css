@@ -40,7 +40,7 @@ button {
     border-radius: 5px;
 }
 
-button.delete-button {
+.delete-button {
     background-color: #F44336;
     color: #fff;
     border: none;
@@ -50,7 +50,7 @@ button.delete-button {
     border-radius: 5px;
 }
 
-button.delete-button:hover {
+.delete-button:hover {
     background: #af0000;
 }
 
