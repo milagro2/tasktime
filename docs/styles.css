@@ -44,10 +44,11 @@ button {
     background-color: #F44336;
     color: #fff;
     border: none;
-    padding: 0.4% 0.7%;
-    margin-left: 732px;
+    padding: 0.8% 1.3%;
+    margin-left: 730px;
     cursor: pointer;
     border-radius: 5px;
+    font-size: 1vw;
 }
 
 .delete-button:hover {
