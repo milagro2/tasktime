@@ -90,8 +90,9 @@ button:hover {
 
     .note .delete-button {
         margin-top: 1%;
-        padding: 2% 4.5%;
-        font-size: 3.2vw;
+        padding: 1% 2%;
+        font-size: 3vw;
+        align-self: flex-end;
     }
 
     span {
