@@ -1,3 +1,4 @@
+<!-- HTML -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,6 +16,12 @@
         <div class="input-section">
             <textarea id="note-text" placeholder="Write your note here..."></textarea>
             <button onclick="addNote()">Add Note</button>
+        </div>
+        <div id="login-section" style="display:none;">
+            <input type="text" id="username" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <button onclick="registerUser()">Register</button>
+            <button onclick="loginUser()">Login</button>
         </div>
     </div>
 
