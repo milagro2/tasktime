@@ -84,18 +84,18 @@ button:hover {
     }
 
     .note {
-        flex-direction: column;
-        font-size: 4vw;
+        padding-left: 2%;
     }
 
     .note .delete-button {
-        margin-top: 1%;
-        padding: 1% 2%;
-        font-size: 3vw;
+        margin-top: -7%;
+        margin-bottom: 1%;
+        padding: 1.1% 2.8%;
+        font-size: 2.2vw;
         align-self: flex-end;
     }
 
     span {
-        font-size: 4vw;
+        font-size: 3.2vw;
     }
 }
