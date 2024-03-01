@@ -10,13 +10,16 @@
 
 <body>
     <div class="container">
-        <h1>Notes App</h1>
-        <textarea id="noteInput" placeholder="Write your note here..."></textarea>
-        <button onclick="saveNote()">Save Note</button>
-        <div id="notesContainer">
-            <!-- Notes will be displayed here -->
+        <h1>My Notes</h1>
+        <div id="notes-container">
+            <!-- Notes will be added here -->
+        </div>
+        <div class="input-section">
+            <textarea id="note-text" placeholder="Write your note here..."></textarea>
+            <button onclick="addNote()">Add Note</button>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 
