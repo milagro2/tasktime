@@ -40,6 +40,16 @@ button {
     border-radius: 5px;
 }
 
+delete-button {
+    background-color: #F44336;
+    color: #fff;
+    border: none;
+    padding: 0.4% 0.7%;
+    margin-left: 732px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
 button:hover {
     background-color: #0056b3;
 }
