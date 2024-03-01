@@ -1,5 +1,5 @@
 // Load saved notes when the page loads
-window.onload = function () {
+window.onload = function() {
     loadNotes();
 };
 
@@ -11,7 +11,19 @@ function addNote() {
 
         var noteElement = document.createElement('div');
         noteElement.className = 'note';
-        noteElement.textContent = noteText;
+
+        var noteContent = document.createElement('span');
+        noteContent.textContent = noteText;
+        noteElement.appendChild(noteContent);
+
+        var deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.className = 'delete-button';
+        deleteButton.onclick = function() {
+            deleteNote(noteText);
+            notesContainer.removeChild(noteElement);
+        };
+        noteElement.appendChild(deleteButton);
 
         notesContainer.appendChild(noteElement);
 
@@ -38,10 +50,33 @@ function loadNotes() {
     var notesContainer = document.getElementById('notes-container');
     notesContainer.innerHTML = '';
 
-    notes.forEach(function (noteText) {
+    notes.forEach(function(noteText) {
         var noteElement = document.createElement('div');
         noteElement.className = 'note';
-        noteElement.textContent = noteText;
+
+        var noteContent = document.createElement('span');
+        noteContent.textContent = noteText;
+        noteElement.appendChild(noteContent);
+
+        var deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.className = 'delete-button';
+        deleteButton.onclick = function() {
+            deleteNote(noteText);
+            notesContainer.removeChild(noteElement);
+        };
+        noteElement.appendChild(deleteButton);
+
         notesContainer.appendChild(noteElement);
     });
+}
+
+// Delete note from local storage
+function deleteNote(note) {
+    var notes = JSON.parse(localStorage.getItem('notes')) || [];
+    var index = notes.indexOf(note);
+    if (index !== -1) {
+        notes.splice(index, 1);
+        localStorage.setItem('notes', JSON.stringify(notes));
+    }
 }
