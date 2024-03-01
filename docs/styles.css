@@ -16,12 +16,12 @@ body {
 
 h1 {
     text-align: center;
-    font-size: 4vw;
+    font-size: 2.8vw;
     margin: 2% 0px;
 }
 
 span {
-    font-size: 1.4vw;
+    font-size: 1.2vw;
 }
 
 .input-section {
@@ -81,6 +81,12 @@ button:hover {
 
     textarea {
         height: 65px;
+    }
+
+    h1 {
+        font-size: 5vw;
+        margin-top: -12%;
+        padding-bottom: 4%;
     }
 
     .note {
