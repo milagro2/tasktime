@@ -30,7 +30,7 @@ function addNote() {
         // Save note to local storage
         saveNoteToLocalStorage(noteText);
 
-        document.getElementById('note-text').value = '';
+        document.getElementById('note-text').value = ''; // Clear the textarea after adding note
     } else {
         alert('Please enter a note.');
     }
@@ -80,4 +80,3 @@ function deleteNote(note) {
         localStorage.setItem('notes', JSON.stringify(notes));
     }
 }
-
