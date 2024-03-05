@@ -38,40 +38,6 @@ textarea {
     border-radius: 5px;
 }
 
-#time-selector {
-    position: relative;
-    display: inline-block;
-    margin-top: 10px;
-}
-
-#time-selector input[type="time"] {
-    position: absolute;
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 5px;
-    font-size: 14px;
-    width: 120px;
-    z-index: 1;
-}
-
-#time-selector::before {
-    content: "Start Time";
-    position: absolute;
-    top: -18px;
-    left: 5px;
-    font-size: 12px;
-    color: #888;
-}
-
-#time-selector::after {
-    content: "End Time";
-    position: absolute;
-    bottom: -18px;
-    left: 5px;
-    font-size: 12px;
-    color: #888;
-}
 
 
 button {
