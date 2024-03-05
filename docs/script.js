@@ -1,3 +1,8 @@
+// Load saved notes when the page loads
+window.onload = function () {
+    loadNotes();
+};
+
 function addNote() {
     var noteText = document.getElementById('note-text').value;
 
@@ -25,18 +30,20 @@ function addNote() {
         // Save note to local storage
         saveNoteToLocalStorage(noteText);
 
-        document.getElementById('note-text').value = ''; // Clear the textarea after adding note
+        document.getElementById('note-text').value = '';
     } else {
         alert('Please enter a note.');
     }
 }
 
+// Save note to local storage
 function saveNoteToLocalStorage(note) {
     var notes = JSON.parse(localStorage.getItem('notes')) || [];
     notes.push(note);
     localStorage.setItem('notes', JSON.stringify(notes));
 }
 
+// Load saved notes from local storage
 function loadNotes() {
     var notes = JSON.parse(localStorage.getItem('notes')) || [];
 
@@ -64,6 +71,7 @@ function loadNotes() {
     });
 }
 
+// Delete note from local storage
 function deleteNote(note) {
     var notes = JSON.parse(localStorage.getItem('notes')) || [];
     var index = notes.indexOf(note);
@@ -73,19 +81,51 @@ function deleteNote(note) {
     }
 }
 
-function insertTime() {
-    var startTime = prompt("Enter start time (HH:MM AM/PM):");
-    var endTime = prompt("Enter end time (HH:MM AM/PM):");
+function createTimeDropdowns(containerId) {
+    var container = document.getElementById(containerId);
 
-    if (startTime && endTime) {
-        var timeRange = startTime + ' - ' + endTime;
-        var noteTextarea = document.getElementById('note-text');
+    var beginTimeLabel = document.createElement('label');
+    beginTimeLabel.textContent = 'Begin Time: ';
+    container.appendChild(beginTimeLabel);
 
-        // Insert the time range into the textarea
-        var startPosition = noteTextarea.selectionStart;
-        var endPosition = noteTextarea.selectionEnd;
-        var noteText = noteTextarea.value;
-        var newText = noteText.substring(0, startPosition) + timeRange + noteText.substring(endPosition);
-        noteTextarea.value = newText;
+    var beginHourSelect = document.createElement('select');
+    for (var i = 0; i < 24; i++) {
+        var option = document.createElement('option');
+        option.text = (i < 10 ? '0' : '') + i;
+        beginHourSelect.add(option);
     }
+    container.appendChild(beginHourSelect);
+
+    var beginMinuteSelect = document.createElement('select');
+    for (var j = 0; j < 60; j++) {
+        var option = document.createElement('option');
+        option.text = (j < 10 ? '0' : '') + j;
+        beginMinuteSelect.add(option);
+    }
+    container.appendChild(beginMinuteSelect);
+
+    container.appendChild(document.createElement('br'));
+
+    var endTimeLabel = document.createElement('label');
+    endTimeLabel.textContent = 'End Time: ';
+    container.appendChild(endTimeLabel);
+
+    var endHourSelect = document.createElement('select');
+    for (var i = 0; i < 24; i++) {
+        var option = document.createElement('option');
+        option.text = (i < 10 ? '0' : '') + i;
+        endHourSelect.add(option);
+    }
+    container.appendChild(endHourSelect);
+
+    var endMinuteSelect = document.createElement('select');
+    for (var j = 0; j < 60; j++) {
+        var option = document.createElement('option');
+        option.text = (j < 10 ? '0' : '') + j;
+        endMinuteSelect.add(option);
+    }
+    container.appendChild(endMinuteSelect);
 }
+
+// Usage
+createTimeDropdowns('time-selector-container');
