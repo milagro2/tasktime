@@ -1,4 +1,4 @@
-Load saved notes when the page loads
+//Load saved notes when the page loads
 window.onload = function () {
     loadNotes();
 };
