@@ -55,7 +55,7 @@ function loadNotes() {
         noteElement.className = 'note';
 
         var noteContent = document.createElement('span');
-        noteContent.textContent = noteText;
+        noteContent.textContent = noteText; // Ensure proper display of note content
         noteElement.appendChild(noteContent);
 
         var deleteButton = document.createElement('button');
