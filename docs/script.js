@@ -1,4 +1,4 @@
-// Load saved notes when the page loads
+Load saved notes when the page loads
 window.onload = function () {
     loadNotes();
 };
@@ -55,7 +55,7 @@ function loadNotes() {
         noteElement.className = 'note';
 
         var noteContent = document.createElement('span');
-        noteContent.textContent = noteText; // Ensure proper display of note content
+        noteContent.textContent = noteText;
         noteElement.appendChild(noteContent);
 
         var deleteButton = document.createElement('button');
