@@ -3,8 +3,11 @@ window.onload = function () {
     loadNotes();
 };
 
+// Function to add a note with start and end time
 function addNote() {
     var noteText = document.getElementById('note-text').value;
+    var startTime = document.getElementById('start-time').value;
+    var endTime = document.getElementById('end-time').value;
 
     if (noteText.trim() !== '') {
         var notesContainer = document.getElementById('notes-container');
@@ -13,7 +16,7 @@ function addNote() {
         noteElement.className = 'note';
 
         var noteContent = document.createElement('span');
-        noteContent.textContent = noteText;
+        noteContent.textContent = noteText + ' - ' + startTime + ' to ' + endTime;
         noteElement.appendChild(noteContent);
 
         var deleteButton = document.createElement('button');
@@ -28,18 +31,25 @@ function addNote() {
         notesContainer.appendChild(noteElement);
 
         // Save note to local storage
-        saveNoteToLocalStorage(noteText);
+        saveNoteToLocalStorage(noteText, startTime, endTime);
 
         document.getElementById('note-text').value = ''; // Clear the textarea after adding note
+        document.getElementById('start-time').value = ''; // Clear the start time input
+        document.getElementById('end-time').value = ''; // Clear the end time input
     } else {
         alert('Please enter a note.');
     }
 }
 
-// Save note to local storage
-function saveNoteToLocalStorage(note) {
+// Save note with start and end time to local storage
+function saveNoteToLocalStorage(note, startTime, endTime) {
     var notes = JSON.parse(localStorage.getItem('notes')) || [];
-    notes.push(note);
+    var noteObject = {
+        text: note,
+        start: startTime,
+        end: endTime
+    };
+    notes.push(noteObject);
     localStorage.setItem('notes', JSON.stringify(notes));
 }
 
@@ -50,19 +60,19 @@ function loadNotes() {
     var notesContainer = document.getElementById('notes-container');
     notesContainer.innerHTML = '';
 
-    notes.forEach(function (noteText) {
+    notes.forEach(function (noteObject) {
         var noteElement = document.createElement('div');
         noteElement.className = 'note';
 
         var noteContent = document.createElement('span');
-        noteContent.textContent = noteText;
+        noteContent.textContent = noteObject.text + ' - ' + noteObject.start + ' to ' + noteObject.end;
         noteElement.appendChild(noteContent);
 
         var deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
         deleteButton.className = 'delete-button';
         deleteButton.onclick = function () {
-            deleteNote(noteText);
+            deleteNote(noteObject.text);
             notesContainer.removeChild(noteElement);
         };
         noteElement.appendChild(deleteButton);
@@ -72,12 +82,36 @@ function loadNotes() {
 }
 
 // Delete note from local storage
-function deleteNote(note) {
+function deleteNote(noteText) {
     var notes = JSON.parse(localStorage.getItem('notes')) || [];
-    var index = notes.indexOf(note);
+    var index = notes.findIndex(function(note) {
+        return note.text === noteText;
+    });
     if (index !== -1) {
         notes.splice(index, 1);
         localStorage.setItem('notes', JSON.stringify(notes));
     }
 }
 
+// Function to create a start and end time selector
+function createTimeSelector() {
+    var startTimeInput = document.createElement('input');
+    startTimeInput.type = 'time';
+    startTimeInput.id = 'start-time';
+    startTimeInput.placeholder = 'Start Time';
+
+    var endTimeInput = document.createElement('input');
+    endTimeInput.type = 'time';
+    endTimeInput.id = 'end-time';
+    endTimeInput.placeholder = 'End Time';
+
+    var container = document.createElement('div');
+    container.appendChild(startTimeInput);
+    container.appendChild(endTimeInput);
+
+    return container;
+}
+
+// Example usage:
+var timeSelectorContainer = createTimeSelector();
+document.body.appendChild(timeSelectorContainer);
