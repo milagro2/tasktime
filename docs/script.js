@@ -84,7 +84,7 @@ function loadNotes() {
 // Delete note from local storage
 function deleteNote(noteText) {
     var notes = JSON.parse(localStorage.getItem('notes')) || [];
-    var index = notes.findIndex(function(note) {
+    var index = notes.findIndex(function (note) {
         return note.text === noteText;
     });
     if (index !== -1) {
@@ -95,6 +95,9 @@ function deleteNote(noteText) {
 
 // Function to create a start and end time selector
 function createTimeSelector() {
+    var timeSelectorContainer = document.createElement('div');
+    timeSelectorContainer.id = 'time-selector';
+
     var startTimeInput = document.createElement('input');
     startTimeInput.type = 'time';
     startTimeInput.id = 'start-time';
@@ -105,11 +108,10 @@ function createTimeSelector() {
     endTimeInput.id = 'end-time';
     endTimeInput.placeholder = 'End Time';
 
-    var container = document.createElement('div');
-    container.appendChild(startTimeInput);
-    container.appendChild(endTimeInput);
+    timeSelectorContainer.appendChild(startTimeInput);
+    timeSelectorContainer.appendChild(endTimeInput);
 
-    return container;
+    return timeSelectorContainer;
 }
 
 // Example usage:
