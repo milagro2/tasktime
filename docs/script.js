@@ -1,10 +1,11 @@
-//Load saved notes when the page loads
+// Load saved notes when the page loads
 window.onload = function () {
     loadNotes();
 };
 
 function addNote() {
     var noteText = document.getElementById('note-text').value;
+    var selectedTime = document.getElementById('time-select').value;
 
     if (noteText.trim() !== '') {
         var notesContainer = document.getElementById('notes-container');
@@ -13,7 +14,7 @@ function addNote() {
         noteElement.className = 'note';
 
         var noteContent = document.createElement('span');
-        noteContent.textContent = noteText;
+        noteContent.textContent = noteText + ' - ' + selectedTime; // Append selected time to note text
         noteElement.appendChild(noteContent);
 
         var deleteButton = document.createElement('button');
@@ -28,7 +29,7 @@ function addNote() {
         notesContainer.appendChild(noteElement);
 
         // Save note to local storage
-        saveNoteToLocalStorage(noteText);
+        saveNoteToLocalStorage(noteText + ' - ' + selectedTime); // Save note with time
 
         document.getElementById('note-text').value = ''; // Clear the textarea after adding note
     } else {
