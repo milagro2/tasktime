@@ -1,20 +1,39 @@
 // Load saved notes when the page loads
 window.onload = function () {
     loadNotes();
+    populateTimeOptions(); // Populate time options when the page loads
 };
+
+function populateTimeOptions() {
+    var startTimeSelect = document.getElementById('start-time-select');
+    var endTimeSelect = document.getElementById('end-time-select');
+
+    // Populate start and end time options (for demonstration, you can adjust the options as needed)
+    for (var hour = 0; hour < 24; hour++) {
+        for (var minute = 0; minute < 60; minute += 15) {
+            var timeString = ('0' + hour).slice(-2) + ':' + ('0' + minute).slice(-2);
+            var option = document.createElement('option');
+            option.value = timeString;
+            option.textContent = timeString;
+            startTimeSelect.appendChild(option);
+            endTimeSelect.appendChild(option.cloneNode(true));
+        }
+    }
+}
 
 function addNote() {
     var noteText = document.getElementById('note-text').value;
-    var selectedTime = document.getElementById('time-select').value;
+    var startTime = document.getElementById('start-time-select').value;
+    var endTime = document.getElementById('end-time-select').value;
 
-    if (noteText.trim() !== '') {
+    if (noteText.trim() !== '' && startTime && endTime) {
         var notesContainer = document.getElementById('notes-container');
 
         var noteElement = document.createElement('div');
         noteElement.className = 'note';
 
         var noteContent = document.createElement('span');
-        noteContent.textContent = noteText + ' - ' + selectedTime; // Append selected time to note text
+        noteContent.textContent = noteText + ' - ' + startTime + ' to ' + endTime; // Append selected times to note text
         noteElement.appendChild(noteContent);
 
         var deleteButton = document.createElement('button');
@@ -29,11 +48,11 @@ function addNote() {
         notesContainer.appendChild(noteElement);
 
         // Save note to local storage
-        saveNoteToLocalStorage(noteText + ' - ' + selectedTime); // Save note with time
+        saveNoteToLocalStorage(noteText + ' - ' + startTime + ' to ' + endTime); // Save note with times
 
         document.getElementById('note-text').value = ''; // Clear the textarea after adding note
     } else {
-        alert('Please enter a note.');
+        alert('Please enter a note and select start and end times.');
     }
 }
 
