@@ -3,11 +3,8 @@ window.onload = function () {
     loadNotes();
 };
 
-// Function to add a note with start and end time
 function addNote() {
     var noteText = document.getElementById('note-text').value;
-    var startTime = document.getElementById('start-time').value;
-    var endTime = document.getElementById('end-time').value;
 
     if (noteText.trim() !== '') {
         var notesContainer = document.getElementById('notes-container');
@@ -16,7 +13,7 @@ function addNote() {
         noteElement.className = 'note';
 
         var noteContent = document.createElement('span');
-        noteContent.textContent = noteText + ' - ' + startTime + ' to ' + endTime;
+        noteContent.textContent = noteText;
         noteElement.appendChild(noteContent);
 
         var deleteButton = document.createElement('button');
@@ -31,25 +28,18 @@ function addNote() {
         notesContainer.appendChild(noteElement);
 
         // Save note to local storage
-        saveNoteToLocalStorage(noteText, startTime, endTime);
+        saveNoteToLocalStorage(noteText);
 
-        document.getElementById('note-text').value = ''; // Clear the textarea after adding note
-        document.getElementById('start-time').value = ''; // Clear the start time input
-        document.getElementById('end-time').value = ''; // Clear the end time input
+        document.getElementById('note-text').value = '';
     } else {
         alert('Please enter a note.');
     }
 }
 
-// Save note with start and end time to local storage
-function saveNoteToLocalStorage(note, startTime, endTime) {
+// Save note to local storage
+function saveNoteToLocalStorage(note) {
     var notes = JSON.parse(localStorage.getItem('notes')) || [];
-    var noteObject = {
-        text: note,
-        start: startTime,
-        end: endTime
-    };
-    notes.push(noteObject);
+    notes.push(note);
     localStorage.setItem('notes', JSON.stringify(notes));
 }
 
@@ -60,19 +50,19 @@ function loadNotes() {
     var notesContainer = document.getElementById('notes-container');
     notesContainer.innerHTML = '';
 
-    notes.forEach(function (noteObject) {
+    notes.forEach(function (noteText) {
         var noteElement = document.createElement('div');
         noteElement.className = 'note';
 
         var noteContent = document.createElement('span');
-        noteContent.textContent = noteObject.text + ' - ' + noteObject.start + ' to ' + noteObject.end;
+        noteContent.textContent = noteText;
         noteElement.appendChild(noteContent);
 
         var deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
         deleteButton.className = 'delete-button';
         deleteButton.onclick = function () {
-            deleteNote(noteObject.text);
+            deleteNote(noteText);
             notesContainer.removeChild(noteElement);
         };
         noteElement.appendChild(deleteButton);
@@ -82,36 +72,12 @@ function loadNotes() {
 }
 
 // Delete note from local storage
-function deleteNote(noteText) {
+function deleteNote(note) {
     var notes = JSON.parse(localStorage.getItem('notes')) || [];
-    var index = notes.findIndex(function(note) {
-        return note.text === noteText;
-    });
+    var index = notes.indexOf(note);
     if (index !== -1) {
         notes.splice(index, 1);
         localStorage.setItem('notes', JSON.stringify(notes));
     }
 }
 
-// Function to create a start and end time selector
-function createTimeSelector() {
-    var startTimeInput = document.createElement('input');
-    startTimeInput.type = 'time';
-    startTimeInput.id = 'start-time';
-    startTimeInput.placeholder = 'Start Time';
-
-    var endTimeInput = document.createElement('input');
-    endTimeInput.type = 'time';
-    endTimeInput.id = 'end-time';
-    endTimeInput.placeholder = 'End Time';
-
-    var container = document.createElement('div');
-    container.appendChild(startTimeInput);
-    container.appendChild(endTimeInput);
-
-    return container;
-}
-
-// Example usage:
-var timeSelectorContainer = createTimeSelector();
-document.body.appendChild(timeSelectorContainer);
