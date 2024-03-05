@@ -12,9 +12,17 @@
     <div class="container">
         <h1>My Notes</h1>
         <div id="notes-container">
+            <!-- Notes will be added here -->
         </div>
         <div class="input-section">
             <textarea id="note-text" placeholder="Write your note here..."></textarea>
+            <div class="time-selection">
+                <label for="start-time">Start Time:</label>
+                <input type="time" id="start-time">
+
+                <label for="end-time">End Time:</label>
+                <input type="time" id="end-time">
+            </div>
             <button onclick="addNote()">Add Note</button>
         </div>
     </div>

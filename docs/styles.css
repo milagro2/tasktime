@@ -74,6 +74,25 @@ button:hover {
     background: #6d0000;
 }
 
+.time-selection {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.time-selection label {
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.time-selection input {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+
 @media only screen and (max-width: 600px) {
     .container {
         padding: 11%;
