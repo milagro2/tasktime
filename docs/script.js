@@ -81,51 +81,60 @@ function deleteNote(note) {
     }
 }
 
-function createTimeDropdowns(containerId) {
-    var container = document.getElementById(containerId);
-
-    var beginTimeLabel = document.createElement('label');
-    beginTimeLabel.textContent = 'Begin Time: ';
-    container.appendChild(beginTimeLabel);
-
-    var beginHourSelect = document.createElement('select');
+function generateHoursDropdown() {
+    var select = document.createElement('select');
     for (var i = 0; i < 24; i++) {
         var option = document.createElement('option');
         option.text = (i < 10 ? '0' : '') + i;
-        beginHourSelect.add(option);
+        option.value = i;
+        select.appendChild(option);
     }
-    container.appendChild(beginHourSelect);
+    return select;
+}
 
-    var beginMinuteSelect = document.createElement('select');
-    for (var j = 0; j < 60; j++) {
+// Function to generate dropdown options for minutes (0-59)
+function generateMinutesDropdown() {
+    var select = document.createElement('select');
+    for (var i = 0; i < 60; i++) {
         var option = document.createElement('option');
-        option.text = (j < 10 ? '0' : '') + j;
-        beginMinuteSelect.add(option);
+        option.text = (i < 10 ? '0' : '') + i;
+        option.value = i;
+        select.appendChild(option);
     }
-    container.appendChild(beginMinuteSelect);
+    return select;
+}
+
+// Function to create a time selector with dropdowns for hours and minutes
+function createTimeSelector() {
+    var container = document.createElement('div');
+
+    var beginLabel = document.createElement('label');
+    beginLabel.textContent = 'Begin Time: ';
+    container.appendChild(beginLabel);
+
+    var beginHoursSelect = generateHoursDropdown();
+    var beginMinutesSelect = generateMinutesDropdown();
+
+    container.appendChild(beginHoursSelect);
+    container.appendChild(document.createTextNode(':'));
+    container.appendChild(beginMinutesSelect);
 
     container.appendChild(document.createElement('br'));
 
-    var endTimeLabel = document.createElement('label');
-    endTimeLabel.textContent = 'End Time: ';
-    container.appendChild(endTimeLabel);
+    var endLabel = document.createElement('label');
+    endLabel.textContent = 'End Time: ';
+    container.appendChild(endLabel);
 
-    var endHourSelect = document.createElement('select');
-    for (var i = 0; i < 24; i++) {
-        var option = document.createElement('option');
-        option.text = (i < 10 ? '0' : '') + i;
-        endHourSelect.add(option);
-    }
-    container.appendChild(endHourSelect);
+    var endHoursSelect = generateHoursDropdown();
+    var endMinutesSelect = generateMinutesDropdown();
 
-    var endMinuteSelect = document.createElement('select');
-    for (var j = 0; j < 60; j++) {
-        var option = document.createElement('option');
-        option.text = (j < 10 ? '0' : '') + j;
-        endMinuteSelect.add(option);
-    }
-    container.appendChild(endMinuteSelect);
+    container.appendChild(endHoursSelect);
+    container.appendChild(document.createTextNode(':'));
+    container.appendChild(endMinutesSelect);
+
+    return container;
 }
 
-// Usage
-createTimeDropdowns('time-selector-container');
+// Example usage:
+var timeSelector = createTimeSelector();
+document.body.appendChild(timeSelector);
