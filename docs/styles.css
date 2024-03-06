@@ -26,6 +26,7 @@ span {
 
 .input-section {
     margin-top: 3%;
+
 }
 
 textarea {
@@ -68,29 +69,43 @@ button:hover {
     padding: 0.5% 1%;
     cursor: pointer;
     border-radius: 5px;
+    margin-left: 5px;
 }
 
 .note .delete-button:hover {
     background: #6d0000;
 }
 
-.time-selection {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 10px;
+.edit-button {
+    background-color: #ffb700;
+    color: white;
+    border: none;
+    padding: 0.5% 1.4%;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-left: auto;
+
 }
 
-.time-selection label {
-    font-size: 14px;
-    margin-right: 10px;
+.edit-button:hover {
+    background: #ff7600;
 }
 
-.time-selection input {
-    padding: 5px;
+
+select {
+    padding: 0.9% 0.5%;
     border: 1px solid #ccc;
     border-radius: 5px;
+    background-color: #fff;
+    cursor: pointer;
 }
+
+option {
+    background-color: #fff;
+    color: #333;
+    font-size: 1vw;
+}
+
 
 
 @media only screen and (max-width: 600px) {
@@ -112,7 +127,8 @@ button:hover {
         padding-left: 2%;
     }
 
-    .note .delete-button {
+    .note .delete-button,
+    .edit-button {
         margin-top: 0.5%;
         margin-bottom: 0.5%;
         padding: 1.1% 2.8%;
@@ -121,6 +137,15 @@ button:hover {
     }
 
     span {
-        font-size: 3.2vw;
+        font-size: 3vw;
     }
+
+    select {
+        padding: 0.6% 0.9%;
+        font-size: 2.8vw;
+        margin-bottom: 1.5%;
+    }
+
+
+
 }
