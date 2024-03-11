@@ -108,14 +108,20 @@ function editNote(noteText, startTime, endTime, noteElement) {
         updatedNoteContent.textContent = updatedNoteText;
         noteElement.replaceChild(updatedNoteContent, textarea);
 
+        var notes = JSON.parse(localStorage.getItem('notes')) || [];
+        var index = notes.indexOf(noteText);
+        if (index !== -1) {
+            notes[index] = updatedNoteText;
+            localStorage.setItem('notes', JSON.stringify(notes));
+        }
+
         editButton.textContent = 'Edit';
-
-
         editButton.onclick = function () {
             editNote(updatedNoteText, startTime, endTime, noteElement);
         };
     }
 }
+
 
 function saveNoteToLocalStorage(note) {
     var notes = JSON.parse(localStorage.getItem('notes')) || [];
@@ -125,7 +131,6 @@ function saveNoteToLocalStorage(note) {
 
 function loadNotes() {
     var notes = JSON.parse(localStorage.getItem('notes')) || [];
-
     var notesContainer = document.getElementById('notes-container');
     notesContainer.innerHTML = '';
 
@@ -141,7 +146,10 @@ function loadNotes() {
         editButton.textContent = 'Edit';
         editButton.className = 'edit-button';
         editButton.onclick = function () {
-            editNote(noteText);
+            var times = noteText.match(/\d{2}:\d{2}/g);
+            if (times.length === 2) {
+                editNote(noteText, times[0], times[1], noteElement);
+            }
         };
         noteElement.appendChild(editButton);
 
@@ -159,7 +167,6 @@ function loadNotes() {
 }
 
 
-// Delete note from local storage
 function deleteNote(note) {
     var notes = JSON.parse(localStorage.getItem('notes')) || [];
     var index = notes.indexOf(note);
