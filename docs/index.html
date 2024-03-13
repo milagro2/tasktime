@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notes App</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -15,16 +16,13 @@
         </div>
         <div class="input-section">
             <textarea id="note-text" placeholder="Write your note here..."></textarea>
-            <select id="start-time-select">
-                <option value="">Select Start Time</option>
-            </select>
-            <select id="end-time-select">
-                <option value="">Select End Time</option>
-            </select>
+            <input type="text" id="start-time-input" placeholder="Select Start Time">
+            <input type="text" id="end-time-input" placeholder="Select End Time">
             <button onclick="addNote()">Add Note</button>
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="script.js"></script>
 </body>
 

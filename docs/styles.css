@@ -20,13 +20,8 @@ h1 {
     margin: 2% 0px;
 }
 
-span {
-    font-size: 1.2vw;
-}
-
 .input-section {
     margin-top: 3%;
-
 }
 
 textarea {
@@ -56,8 +51,8 @@ button:hover {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.5% 1.5% 0.5% 1.5%;
-    margin-bottom: 0.8%;
+    padding: 1% 2%;
+    margin-bottom: 1%;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
@@ -84,29 +79,18 @@ button:hover {
     cursor: pointer;
     border-radius: 5px;
     margin-left: auto;
-
 }
 
 .edit-button:hover {
     background: #ff7600;
 }
 
-
-select {
-    padding: 0.9% 0.5%;
+.flatpickr-input {
+    padding: 0.8% 1%;
     border: 1px solid #ccc;
     border-radius: 5px;
-    background-color: #fff;
     cursor: pointer;
 }
-
-option {
-    background-color: #fff;
-    color: #333;
-    font-size: 1vw;
-}
-
-
 
 @media only screen and (max-width: 600px) {
     .container {
@@ -124,23 +108,20 @@ option {
     }
 
     .note {
-        padding-left: 2%;
+        padding: 1.2% 2%;
     }
 
     .note .delete-button,
     .edit-button {
-        margin-top: 0.5%;
-        margin-bottom: 0.5%;
         padding: 1.1% 2.8%;
         font-size: 2.2vw;
-        align-self: flex-end;
     }
 
     span {
         font-size: 3vw;
     }
 
-    select {
+    .flatpickr-input {
         padding: 0.6% 0.9%;
         font-size: 2.8vw;
         margin-bottom: 1.5%;
@@ -149,6 +130,4 @@ option {
     button {
         font-size: 2.6vw;
     }
-
-
 }

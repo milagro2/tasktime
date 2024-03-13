@@ -1,45 +1,30 @@
 window.onload = function () {
     loadNotes();
-    populateTimeOptions();
+    initFlatpickr();
 };
 
-function populateTimeOptions() {
-    var startTimeSelect = document.getElementById('start-time-select');
-    var endTimeSelect = document.getElementById('end-time-select');
+function initFlatpickr() {
+    flatpickr("#start-time-input", {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
+        minuteIncrement: 1,
+        time_24hr: true
+    });
 
-    for (var hour = 8; hour < 23; hour++) {
-        for (var minute = 0; minute < 60; minute += 1) {
-            var timeString = ('0' + hour).slice(-2) + ':' + ('0' + minute).slice(-2);
-            var option = document.createElement('option');
-            option.value = timeString;
-            option.textContent = timeString;
-            startTimeSelect.appendChild(option);
-            endTimeSelect.appendChild(option.cloneNode(true));
-        }
-    }
-
-    startTimeSelect.addEventListener('change', filterEndTimeOptions);
-}
-
-function filterEndTimeOptions() {
-    var startTimeSelect = document.getElementById('start-time-select');
-    var endTimeSelect = document.getElementById('end-time-select');
-
-    var selectedStartTime = startTimeSelect.value.split(':')[0];
-    for (var i = 0; i < endTimeSelect.options.length; i++) {
-        var optionHour = endTimeSelect.options[i].value.split(':')[0];
-        if (optionHour < selectedStartTime) {
-            endTimeSelect.options[i].disabled = true;
-        } else {
-            endTimeSelect.options[i].disabled = false;
-        }
-    }
+    flatpickr("#end-time-input", {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
+        minuteIncrement: 1,
+        time_24hr: true
+    });
 }
 
 function addNote() {
     var noteText = document.getElementById('note-text').value;
-    var startTime = document.getElementById('start-time-select').value;
-    var endTime = document.getElementById('end-time-select').value;
+    var startTime = document.getElementById('start-time-input').value;
+    var endTime = document.getElementById('end-time-input').value;
 
     if (noteText.trim() !== '' && startTime && endTime) {
         var notesContainer = document.getElementById('notes-container');
@@ -74,12 +59,13 @@ function addNote() {
         saveNoteToLocalStorage(noteText + ' - ' + startTime + ' to ' + endTime);
 
         document.getElementById('note-text').value = '';
-        document.getElementById('start-time-select').value = endTime;
-        document.getElementById('end-time-select').value = '';
+        document.getElementById('start-time-input').value = '';
+        document.getElementById('end-time-input').value = '';
     } else {
         alert('Please enter a note and select start and end times.');
     }
 }
+
 function editNote(noteText, startTime, endTime, noteElement) {
     var noteContent = noteElement.querySelector('span').textContent;
 
@@ -121,7 +107,6 @@ function editNote(noteText, startTime, endTime, noteElement) {
         };
     }
 }
-
 
 function saveNoteToLocalStorage(note) {
     var notes = JSON.parse(localStorage.getItem('notes')) || [];
@@ -165,7 +150,6 @@ function loadNotes() {
         notesContainer.appendChild(noteElement);
     });
 }
-
 
 function deleteNote(note) {
     var notes = JSON.parse(localStorage.getItem('notes')) || [];
