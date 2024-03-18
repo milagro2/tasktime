@@ -37,7 +37,7 @@ function addNote() {
         noteElement.appendChild(noteContent);
 
         var editButton = document.createElement('button');
-        editButton.textContent = 'Edit';
+        editButton.textContent = 'Bewerken';
         editButton.className = 'edit-button';
         editButton.onclick = function () {
             editNote(noteText, startTime, endTime, noteElement);
@@ -45,7 +45,7 @@ function addNote() {
         noteElement.appendChild(editButton);
 
         var deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Delete';
+        deleteButton.textContent = 'Verwijder';
         deleteButton.className = 'delete-button';
         deleteButton.onclick = function () {
             deleteNote(noteText);
@@ -62,7 +62,7 @@ function addNote() {
         document.getElementById('start-time-input').value = '';
         document.getElementById('end-time-input').value = '';
     } else {
-        alert('Please enter a note and select start and end times.');
+        alert('Voeg een taak toe en selecteer een begin- en eindtijd');
     }
 }
 
@@ -70,7 +70,7 @@ function editNote(noteText, startTime, endTime, noteElement) {
     var noteContent = noteElement.querySelector('span').textContent;
 
     if (!noteContent.includes(startTime) && !noteContent.includes(endTime)) {
-        noteContent += ' - ' + startTime + ' to ' + endTime;
+        noteContent += ' - ' + startTime + ' tot ' + endTime;
     }
 
     var textarea = document.createElement('textarea');
@@ -79,7 +79,7 @@ function editNote(noteText, startTime, endTime, noteElement) {
     noteElement.replaceChild(textarea, noteElement.querySelector('span'));
 
     var editButton = noteElement.querySelector('.edit-button');
-    editButton.textContent = 'Save';
+    editButton.textContent = 'Opslaan';
 
     editButton.onclick = function () {
         updateNote();
@@ -101,7 +101,7 @@ function editNote(noteText, startTime, endTime, noteElement) {
             localStorage.setItem('notes', JSON.stringify(notes));
         }
 
-        editButton.textContent = 'Edit';
+        editButton.textContent = 'Bewerken';
         editButton.onclick = function () {
             editNote(updatedNoteText, startTime, endTime, noteElement);
         };
@@ -128,7 +128,7 @@ function loadNotes() {
         noteElement.appendChild(noteContent);
 
         var editButton = document.createElement('button');
-        editButton.textContent = 'Edit';
+        editButton.textContent = 'Bewerken';
         editButton.className = 'edit-button';
         editButton.onclick = function () {
             var times = noteText.match(/\d{2}:\d{2}/g);
@@ -139,7 +139,7 @@ function loadNotes() {
         noteElement.appendChild(editButton);
 
         var deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Delete';
+        deleteButton.textContent = 'Verwijderen';
         deleteButton.className = 'delete-button';
         deleteButton.onclick = function () {
             deleteNote(noteText);
