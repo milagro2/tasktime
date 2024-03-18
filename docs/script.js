@@ -26,14 +26,14 @@ function addNote() {
     var startTime = document.getElementById('start-time-input').value;
     var endTime = document.getElementById('end-time-input').value;
 
-    if (noteText.trim() !== '' && startTime && endTime) {
+    if (noteText.trim() !== '' && startTime) {
         var notesContainer = document.getElementById('notes-container');
 
         var noteElement = document.createElement('div');
         noteElement.className = 'note';
 
         var noteContent = document.createElement('span');
-        noteContent.textContent = noteText + ' - ' + startTime + ' to ' + endTime;
+        noteContent.textContent = noteText + ' - ' + startTime + (endTime ? ' to ' + endTime : '');
         noteElement.appendChild(noteContent);
 
         var editButton = document.createElement('button');
@@ -56,13 +56,13 @@ function addNote() {
         notesContainer.appendChild(noteElement);
 
 
-        saveNoteToLocalStorage(noteText + ' - ' + startTime + ' to ' + endTime);
+        saveNoteToLocalStorage(noteText + ' - ' + startTime + (endTime ? ' to ' + endTime : ''));
 
         document.getElementById('note-text').value = '';
         document.getElementById('start-time-input').value = '';
         document.getElementById('end-time-input').value = '';
     } else {
-        alert('Voeg een taak toe en selecteer een begin- en eindtijd');
+        alert('Voeg een taak toe en selecteer een begintijd');
     }
 }
 
@@ -132,8 +132,8 @@ function loadNotes() {
         editButton.className = 'edit-button';
         editButton.onclick = function () {
             var times = noteText.match(/\d{2}:\d{2}/g);
-            if (times.length === 2) {
-                editNote(noteText, times[0], times[1], noteElement);
+            if (times.length >= 1) {
+                editNote(noteText, times[0], times[1] || null, noteElement);
             }
         };
         noteElement.appendChild(editButton);
