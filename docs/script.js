@@ -33,7 +33,7 @@ function addNote() {
         noteElement.className = 'note';
 
         var noteContent = document.createElement('span');
-        noteContent.textContent = noteText + ' - ' + startTime + (endTime ? ' to ' + endTime : '');
+        noteContent.textContent = noteText + ': ' + startTime + (endTime ? ' - ' + endTime : '');
         noteElement.appendChild(noteContent);
 
         var editButton = document.createElement('button');
@@ -56,7 +56,7 @@ function addNote() {
         notesContainer.appendChild(noteElement);
 
 
-        saveNoteToLocalStorage(noteText + ' - ' + startTime + (endTime ? ' to ' + endTime : ''));
+        saveNoteToLocalStorage(noteText + ': ' + startTime + (endTime ? ' - ' + endTime : ''));
 
         document.getElementById('note-text').value = '';
         document.getElementById('start-time-input').value = '';
