@@ -6,7 +6,7 @@ body {
 }
 
 .container {
-    max-width: 60%;
+    max-width: 70%;
     margin: 20px auto;
     padding: 2%;
     background-color: #fff;
@@ -25,7 +25,8 @@ h1 {
 }
 
 textarea {
-    width: 97.5%;
+    width: 122.5%;
+    margin-left: -13%;
     height: 75px;
     padding: 1%;
     margin-top: 1%;
