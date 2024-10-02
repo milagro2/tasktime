@@ -48,21 +48,21 @@ function addNote() {
         deleteButton.textContent = 'Verwijder';
         deleteButton.className = 'delete-button';
         deleteButton.onclick = function () {
-            deleteNote(noteText);
-            notesContainer.removeChild(noteElement);
+            deleteNote(noteText, noteElement);
         };
         noteElement.appendChild(deleteButton);
 
         notesContainer.appendChild(noteElement);
-
 
         saveNoteToLocalStorage(noteText + ': ' + startTime + (endTime ? ' - ' + endTime : ''));
 
         document.getElementById('note-text').value = '';
         document.getElementById('start-time-input').value = '';
         document.getElementById('end-time-input').value = '';
+
+        showFeedback('Note added successfully!', 'success');
     } else {
-        alert('Voeg een taak toe en selecteer een begintijd');
+        showFeedback('Please add a task and select a start time', 'error');
     }
 }
 
@@ -139,11 +139,10 @@ function loadNotes() {
         noteElement.appendChild(editButton);
 
         var deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Verwijderen';
+        deleteButton.textContent = 'Verwijder';
         deleteButton.className = 'delete-button';
         deleteButton.onclick = function () {
-            deleteNote(noteText);
-            notesContainer.removeChild(noteElement);
+            deleteNote(noteText, noteElement);
         };
         noteElement.appendChild(deleteButton);
 
@@ -151,11 +150,30 @@ function loadNotes() {
     });
 }
 
-function deleteNote(note) {
+function deleteNote(noteText, noteElement) {
     var notes = JSON.parse(localStorage.getItem('notes')) || [];
-    var index = notes.indexOf(note);
+    var index = notes.indexOf(noteText);
     if (index !== -1) {
         notes.splice(index, 1);
         localStorage.setItem('notes', JSON.stringify(notes));
     }
+
+    noteElement.style.animation = 'fadeOut 0.5s ease';
+    noteElement.addEventListener('animationend', function() {
+        noteElement.remove();
+    });
+}
+
+function showFeedback(message, type) {
+    var feedback = document.createElement('div');
+    feedback.className = 'feedback ' + type;
+    feedback.textContent = message;
+    document.body.appendChild(feedback);
+
+    setTimeout(function() {
+        feedback.style.animation = 'fadeOut 0.5s ease';
+        feedback.addEventListener('animationend', function() {
+            feedback.remove();
+        });
+    }, 2000);
 }
