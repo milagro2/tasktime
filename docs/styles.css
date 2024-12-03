@@ -93,6 +93,82 @@ button:hover {
     cursor: pointer;
 }
 
+.text-input-container {
+    position: relative;
+    width: 100%;
+}
+
+.quick-tasks-button {
+    position: absolute;
+    right: -13%;
+    top: 0;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.tasks-dropdown {
+    display: none;
+    position: absolute;
+    right: -13%;
+    top: 40px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 1000;
+}
+
+.tasks-dropdown.show {
+    display: block;
+}
+
+.task-item {
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.task-item:hover {
+    background-color: #f0f0f0;
+}
+
+.edit-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex: 1;
+}
+
+.edit-text-input {
+    flex: 1;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.edit-time-input {
+    width: 100px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.time-display {
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.time-separator {
+    margin: 0 5px;
+}
+
 @media only screen and (max-width: 600px) {
     .container {
         padding: 11%;
@@ -130,5 +206,35 @@ button:hover {
 
     button {
         font-size: 2.6vw;
+    }
+
+    .quick-tasks-button {
+        font-size: 2.6vw;
+        padding: 6px 12px;
+        right: -11%;
+    }
+
+    .tasks-dropdown {
+        right: -11%;
+    }
+
+    .task-item {
+        font-size: 2.8vw;
+        padding: 8px 16px;
+    }
+
+    .edit-container {
+        gap: 5px;
+    }
+
+    .edit-text-input,
+    .edit-time-input {
+        font-size: 2.8vw;
+        padding: 4px;
+    }
+
+    .time-display {
+        font-size: 2.8vw;
+        padding: 4px 8px;
     }
 }

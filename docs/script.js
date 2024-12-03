@@ -1,6 +1,7 @@
 window.onload = function () {
     loadNotes();
     initFlatpickr();
+    initQuickTasks();
 };
 
 function initFlatpickr() {
@@ -18,6 +19,36 @@ function initFlatpickr() {
         dateFormat: "H:i",
         minuteIncrement: 1,
         time_24hr: true
+    });
+}
+
+function initQuickTasks() {
+    const quickTasksBtn = document.getElementById('quick-tasks-btn');
+    const tasksDropdown = document.getElementById('tasks-dropdown');
+    const taskItems = document.querySelectorAll('.task-item');
+
+    // Toggle dropdown when button is clicked
+    quickTasksBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        tasksDropdown.classList.toggle('show');
+    });
+
+    // Hide dropdown when clicking outside
+    document.addEventListener('click', function() {
+        tasksDropdown.classList.remove('show');
+    });
+
+    // Prevent dropdown from closing when clicking inside it
+    tasksDropdown.addEventListener('click', function(e) {
+        e.stopPropagation();
+    });
+
+    // Add click handlers for task items
+    taskItems.forEach(item => {
+        item.addEventListener('click', function() {
+            document.getElementById('note-text').value = this.textContent;
+            tasksDropdown.classList.remove('show');
+        });
     });
 }
 
@@ -68,44 +99,77 @@ function addNote() {
 
 function editNote(noteText, startTime, endTime, noteElement) {
     var noteContent = noteElement.querySelector('span').textContent;
+    var originalText = noteContent.split(':')[0];
 
-    if (!noteContent.includes(startTime) && !noteContent.includes(endTime)) {
-        noteContent += ' - ' + startTime + ' tot ' + endTime;
-    }
+    // Create edit container
+    var editContainer = document.createElement('div');
+    editContainer.className = 'edit-container';
 
-    var textarea = document.createElement('textarea');
-    textarea.value = noteContent;
-    textarea.className = 'note-textarea';
-    noteElement.replaceChild(textarea, noteElement.querySelector('span'));
+    // Create text input
+    var textInput = document.createElement('input');
+    textInput.type = 'text';
+    textInput.value = originalText;
+    textInput.className = 'edit-text-input';
+    editContainer.appendChild(textInput);
 
+    // Create start time display
+    var startTimeDisplay = document.createElement('span');
+    startTimeDisplay.textContent = startTime;
+    startTimeDisplay.className = 'time-display';
+    editContainer.appendChild(startTimeDisplay);
+
+    // Add separator
+    var separator = document.createElement('span');
+    separator.textContent = '-';
+    separator.className = 'time-separator';
+    editContainer.appendChild(separator);
+
+    // Create time input for end time
+    var timeInput = document.createElement('input');
+    timeInput.type = 'text';
+    timeInput.className = 'edit-time-input';
+    timeInput.placeholder = 'Eind Tijd';
+    editContainer.appendChild(timeInput);
+
+    // Replace the span with our edit container
+    noteElement.replaceChild(editContainer, noteElement.querySelector('span'));
+
+    // Initialize Flatpickr on the time input
+    var fp = flatpickr(timeInput, {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
+        minuteIncrement: 1,
+        time_24hr: true,
+        defaultHour: endTime ? parseInt(endTime.split(':')[0]) : null,
+        defaultMinute: endTime ? parseInt(endTime.split(':')[1]) : null
+    });
+
+    // Modify edit button
     var editButton = noteElement.querySelector('.edit-button');
     editButton.textContent = 'Opslaan';
 
-    editButton.onclick = function () {
-        updateNote();
-    };
-
-    function updateNote() {
-        var updatedNoteText = textarea.value;
-
-        textarea.textContent = updatedNoteText;
-
+    editButton.onclick = function() {
+        var updatedText = textInput.value;
+        var updatedTime = timeInput.value;
+        
         var updatedNoteContent = document.createElement('span');
-        updatedNoteContent.textContent = updatedNoteText;
-        noteElement.replaceChild(updatedNoteContent, textarea);
+        updatedNoteContent.textContent = updatedText + ': ' + startTime + (updatedTime ? ' - ' + updatedTime : '');
+        noteElement.replaceChild(updatedNoteContent, editContainer);
 
+        // Update in localStorage
         var notes = JSON.parse(localStorage.getItem('notes')) || [];
-        var index = notes.indexOf(noteText);
+        var index = notes.indexOf(noteContent);
         if (index !== -1) {
-            notes[index] = updatedNoteText;
+            notes[index] = updatedNoteContent.textContent;
             localStorage.setItem('notes', JSON.stringify(notes));
         }
 
         editButton.textContent = 'Bewerken';
-        editButton.onclick = function () {
-            editNote(updatedNoteText, startTime, endTime, noteElement);
+        editButton.onclick = function() {
+            editNote(updatedNoteContent.textContent, startTime, updatedTime, noteElement);
         };
-    }
+    };
 }
 
 function saveNoteToLocalStorage(note) {
