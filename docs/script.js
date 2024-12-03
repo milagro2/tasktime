@@ -59,8 +59,8 @@ function addNote() {
         saveNoteToLocalStorage(noteText + ': ' + startTime + (endTime ? ' - ' + endTime : ''));
 
         document.getElementById('note-text').value = '';
-        document.getElementById('start-time-input').value = '';
-        document.getElementById('end-time-input').value = '';
+        document.getElementById('start-time-input')._flatpickr.clear();
+        document.getElementById('end-time-input')._flatpickr.clear();
     } else {
         alert('Voeg een taak toe en selecteer een begintijd');
     }
