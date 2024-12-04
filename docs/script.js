@@ -129,9 +129,10 @@ function editNote(noteText, startTime, endTime, noteElement) {
     timeInput.type = 'text';
     timeInput.className = 'edit-time-input';
     timeInput.placeholder = 'Eind Tijd';
+    timeInput.value = endTime || '';
     editContainer.appendChild(timeInput);
 
-    // Replace the span with our edit container
+
     noteElement.replaceChild(editContainer, noteElement.querySelector('span'));
 
     // Initialize Flatpickr on the time input
@@ -141,8 +142,7 @@ function editNote(noteText, startTime, endTime, noteElement) {
         dateFormat: "H:i",
         minuteIncrement: 1,
         time_24hr: true,
-        defaultHour: endTime ? parseInt(endTime.split(':')[0]) : null,
-        defaultMinute: endTime ? parseInt(endTime.split(':')[1]) : null
+        defaultDate: endTime ? `2000-01-01 ${endTime}` : null
     });
 
     // Modify edit button
@@ -151,7 +151,7 @@ function editNote(noteText, startTime, endTime, noteElement) {
 
     editButton.onclick = function() {
         var updatedText = textInput.value;
-        var updatedTime = timeInput.value;
+        var updatedTime = timeInput.value || endTime;
         
         var updatedNoteContent = document.createElement('span');
         updatedNoteContent.textContent = updatedText + ': ' + startTime + (updatedTime ? ' - ' + updatedTime : '');

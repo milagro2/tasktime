@@ -224,17 +224,32 @@ button:hover {
     }
 
     .edit-container {
-        gap: 5px;
+        gap: 3px;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        width: 100%;
     }
 
-    .edit-text-input,
-    .edit-time-input {
+    .edit-text-input {
+        width: 100%;
+        margin-bottom: 5px;
+        order: 1;
+    }
+
+    .time-display, .time-separator, .edit-time-input {
+        order: 2;
         font-size: 2.8vw;
-        padding: 4px;
+    }
+
+    .edit-time-input {
+        width: 70px;
     }
 
     .time-display {
-        font-size: 2.8vw;
-        padding: 4px 8px;
+        padding: 4px 6px;
+    }
+
+    .time-separator {
+        margin: 0 3px;
     }
 }
