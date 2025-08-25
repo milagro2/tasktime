@@ -221,15 +221,32 @@
       localStorage.setItem('board', JSON.stringify(boardData));
     }
 
-    function renderBoard() {
-      Object.keys(boardData).forEach(col => {
-        const container = document.getElementById(col);
-        container.innerHTML = '';
-        boardData[col].forEach(task => {
-          container.appendChild(createTaskElement(task, col));
-        });
-      });
-    }
+    function migrateOldTasks() {
+  let changed = false;
+  Object.keys(boardData).forEach(col => {
+    boardData[col] = boardData[col].map(task => {
+      if (typeof task === "string") {
+        // Convert old string task into object
+        changed = true;
+        return { id: 'task-' + taskId++, text: task, priority: 3 }; // default P3
+      }
+      return task;
+    });
+  });
+  if (changed) saveBoard();
+}
+
+function renderBoard() {
+  migrateOldTasks(); // make sure everything is upgraded
+  Object.keys(boardData).forEach(col => {
+    const container = document.getElementById(col);
+    container.innerHTML = '';
+    boardData[col].forEach(task => {
+      container.appendChild(createTaskElement(task, col));
+    });
+  });
+}
+
 
     renderBoard();
   </script>
