@@ -1,186 +1,307 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Notes</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css" />
 <style>
-  body { font-family: sans-serif; margin:0; background:#f5f7fa; }
-  header { padding:1rem; background:#4f46e5; color:white; text-align:center; }
-  nav { display:flex; gap:1rem; background:#e0e7ff; padding:0.5rem 1rem; }
-  nav a { text-decoration:none; color:#111; font-weight:600; }
-  main { padding:1rem; max-width:900px; margin:auto; }
+  /* --- Page-local styles (keeps working with your existing style.css) --- */
+  main { max-width: 1000px; margin: 0 auto; }
 
-  /* Create form */
-  .noteForm { background:#fff; padding:1rem; border-radius:12px; box-shadow:0 2px 6px rgba(0,0,0,0.1); margin-bottom:1.5rem; }
-  .noteForm input, .noteForm textarea, .noteForm select { width:100%; margin-bottom:0.5rem; padding:0.5rem; border-radius:6px; border:1px solid #ccc; font-size:1rem; }
-  .toolbar { display:flex; gap:0.5rem; margin-bottom:0.5rem; }
-  .toolbar button { padding:0.3rem 0.6rem; border:none; border-radius:6px; background:#e0e7ff; cursor:pointer; font-size:0.9rem; }
-  .toolbar button:hover { background:#c7d2fe; }
+  /* Composer */
+  .noteForm { background:#fff; padding:1rem; border-radius:12px; box-shadow:0 2px 6px rgba(0,0,0,0.1); margin:1rem 0 1.5rem; }
+  .noteForm input, .noteForm select { width:100%; margin-bottom:0.5rem; padding:0.6rem 0.7rem; border-radius:8px; border:1px solid #d1d5db; font-size:1rem; }
+  .toolbar { display:flex; flex-wrap:wrap; gap:0.5rem; margin:0.5rem 0; }
+  .tool-btn { border:none; background:#e5e7eb; padding:0.4rem 0.6rem; border-radius:8px; cursor:pointer; font-weight:600; }
+  .tool-btn:hover { background:#d1d5db; }
+  .tool-sep { width:1px; background:#e5e7eb; margin:0 0.25rem; }
+
+  #editor { min-height:140px; border:1px solid #d1d5db; border-radius:10px; padding:0.8rem; background:#fbfbfb; }
+  #editor:focus { outline: 2px solid #93c5fd; background:#fff; }
+  .placeholder { color:#9ca3af; }
 
   /* Notes grid */
-  #notesContainer { display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:1rem; }
-  .noteCard { background:#fff; padding:1rem; border-radius:12px; box-shadow:0 2px 6px rgba(0,0,0,0.1); position:relative; display:flex; flex-direction:column; gap:0.5rem; }
-  .noteCard h3 { margin:0; font-size:1.1rem; font-weight:bold; }
-  .noteCard .category { font-size:0.8rem; padding:0.2rem 0.5rem; border-radius:6px; background:#ddd; display:inline-block; margin-bottom:0.5rem; }
+  #notesContainer { display:grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap:1rem; }
+  .noteCard { background:#fff; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.08); padding:0.9rem 0.9rem 1.2rem; position:relative; display:flex; flex-direction:column; gap:0.5rem; }
   .noteCard .actions { position:absolute; top:8px; right:8px; display:flex; gap:6px; }
-  .noteCard .actions button { border:none; background:#f3f4f6; border-radius:6px; padding:0.2rem 0.5rem; cursor:pointer; font-size:0.8rem; }
-  .noteCard .actions button:hover { background:#e5e7eb; }
+  .icon-btn { border:none; background:#f3f4f6; border-radius:8px; padding:0.25rem 0.45rem; cursor:pointer; font-size:0.9rem; }
+  .icon-btn:hover { background:#e5e7eb; }
   .pinned { border:2px solid #f59e0b; }
 
+  .noteTitle { font-weight:800; font-size:1.05rem; outline:none; border-radius:6px; padding:2px 4px; }
+  .noteContent { line-height:1.4; outline:none; border-radius:6px; padding:4px; min-height:60px; }
+  .noteTitle:focus, .noteContent:focus { box-shadow:0 0 0 2px #bfdbfe; }
+
+  .chip { display:inline-flex; align-items:center; gap:6px; font-size:0.8rem; padding:0.2rem 0.5rem; border-radius:9999px; width:max-content; user-select:none; cursor:pointer; }
+  .chip small { opacity:0.8; }
+  .hint { font-size:0.75rem; color:#6b7280; }
+
   /* Search */
-  #searchBar { width:100%; padding:0.6rem; margin-bottom:1rem; border-radius:8px; border:1px solid #ccc; }
+  #searchBar { width:100%; padding:0.65rem 0.75rem; margin:0.5rem 0 1rem; border-radius:10px; border:1px solid #d1d5db; }
+
+  @media (max-width: 640px) {
+    .toolbar { gap:0.35rem; }
+  }
 </style>
 </head>
 <body>
-<header>
-  <h1>Notes</h1>
-</header>
+  <header>
+    <h1>Notes</h1>
+  </header>
 
-<nav>
-  <a href="index.html">Home</a>
-  <a href="notes.html">Notes</a>
-  <a href="tasks.html">Tasks</a>
-</nav>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="notes.html">Notes</a>
+    <a href="tasks.html">Tasks</a>
+  </nav>
 
-<main>
-  <!-- Search -->
-  <input type="text" id="searchBar" placeholder="Search notes...">
+  <main>
+    <!-- Search -->
+    <input id="searchBar" type="text" placeholder="Search notes (title & content)…" />
 
-  <!-- Create Note -->
-  <div class="noteForm">
-    <input type="text" id="noteTitle" placeholder="Title...">
-    <div class="toolbar">
-      <button onclick="formatText('bold')"><b>B</b></button>
-      <button onclick="formatText('italic')"><i>I</i></button>
-      <button onclick="formatText('underline')"><u>U</u></button>
-      <button onclick="insertBullet()">• List</button>
+    <!-- Composer -->
+    <div class="noteForm">
+      <input id="noteTitle" type="text" placeholder="Title…" />
+
+      <div id="toolbar" class="toolbar">
+        <button class="tool-btn" data-cmd="bold"><b>B</b></button>
+        <button class="tool-btn" data-cmd="italic"><i>I</i></button>
+        <button class="tool-btn" data-cmd="underline"><u>U</u></button>
+        <div class="tool-sep"></div>
+        <button class="tool-btn" data-cmd="insertUnorderedList">• List</button>
+        <button class="tool-btn" data-cmd="insertOrderedList">1. List</button>
+        <div class="tool-sep"></div>
+        <button class="tool-btn" data-cmd="formatBlock" data-value="h2">H2</button>
+        <button class="tool-btn" data-cmd="removeFormat">Clear</button>
+      </div>
+
+      <div id="editor" contenteditable="true" data-placeholder="Write your note here…"></div>
+
+      <select id="noteCategory">
+        <option value="General">General</option>
+        <option value="Frontend">Frontend</option>
+        <option value="Backend">Backend</option>
+        <option value="Ideas">Ideas</option>
+        <option value="Other">Other</option>
+      </select>
+      <button id="saveBtn">Save Note</button>
+      <div class="hint">Tip: Select text and use the toolbar. Double‑click a saved note to edit inline, changes auto‑save on blur.</div>
     </div>
-    <textarea id="noteInput" placeholder="Write your note here..."></textarea>
-    <select id="noteCategory">
-      <option value="General">General</option>
-      <option value="Frontend">Frontend</option>
-      <option value="Backend">Backend</option>
-      <option value="Ideas">Ideas</option>
-      <option value="Other">Other</option>
-    </select>
-    <button onclick="saveNote()">Save Note</button>
-  </div>
 
-  <!-- Notes Container -->
-  <div id="notesContainer"></div>
-</main>
+    <!-- Notes -->
+    <div id="notesContainer"></div>
+  </main>
 
 <script>
-let notes = JSON.parse(localStorage.getItem('notesApp')) || [];
+  // ---------- Data ----------
+  const categories = [
+    { name: 'General',  bg: '#e5e7eb', fg: '#111827' },
+    { name: 'Frontend', bg: '#dbeafe', fg: '#1e3a8a' },
+    { name: 'Backend',  bg: '#dcfce7', fg: '#065f46' },
+    { name: 'Ideas',    bg: '#fef9c3', fg: '#854d0e' },
+    { name: 'Other',    bg: '#fce7f3', fg: '#831843' },
+  ];
 
-// Save note
-function saveNote() {
-  const title = document.getElementById('noteTitle').value.trim();
-  const text = document.getElementById('noteInput').value.trim();
-  const category = document.getElementById('noteCategory').value;
-  if (!title && !text) return;
+  let notes = JSON.parse(localStorage.getItem('notesApp')) || [];
+  let currentEditor = null; // the active contenteditable element
 
-  notes.push({ title, text, category, pinned:false, date: Date.now() });
-  localStorage.setItem('notesApp', JSON.stringify(notes));
+  // ---------- Utils ----------
+  function saveAll() { localStorage.setItem('notesApp', JSON.stringify(notes)); }
 
-  document.getElementById('noteTitle').value = '';
-  document.getElementById('noteInput').value = '';
-  renderNotes();
-}
+  function findCat(name) { return categories.find(c => c.name === name) || categories[0]; }
 
-// Render notes
-function renderNotes(filter='') {
-  const container = document.getElementById('notesContainer');
-  container.innerHTML = '';
+  function stripHtml(html) { const d=document.createElement('div'); d.innerHTML = html || ''; return d.textContent || d.innerText || ''; }
 
-  // sort pinned on top
-  let displayNotes = [...notes].sort((a,b)=> b.pinned - a.pinned || b.date - a.date);
+  function escapeHtml(str){ return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-  // filter
-  if (filter) {
-    displayNotes = displayNotes.filter(n => 
-      n.title.toLowerCase().includes(filter) || 
-      n.text.toLowerCase().includes(filter)
-    );
+  // Debounce helper for autosave during inline editing
+  function debounce(fn, delay=300){ let t; return (...args)=>{ clearTimeout(t); t=setTimeout(()=>fn(...args), delay); } }
+
+  // Migrate old notes (from text-only to HTML content & add ids)
+  function migrateNotes(){
+    let changed = false;
+    notes.forEach(n => {
+      if (!n.id) { n.id = 'n-'+Math.random().toString(36).slice(2); changed = true; }
+      if (n.text && !n.content) { n.content = escapeHtml(n.text).replace(/\n/g,'<br>'); delete n.text; changed = true; }
+      if (!n.category) { n.category = 'General'; changed = true; }
+      if (typeof n.pinned !== 'boolean') { n.pinned = false; changed = true; }
+      if (!n.date) { n.date = Date.now(); changed = true; }
+    });
+    if (changed) saveAll();
   }
 
-  displayNotes.forEach((note, index) => {
-    const card = document.createElement('div');
-    card.className = 'noteCard' + (note.pinned ? ' pinned':'');
-    card.innerHTML = `
-      <div class="actions">
-        <button onclick="togglePin(${index})">📌</button>
-        <button onclick="editNote(${index})">✏️</button>
-        <button onclick="deleteNote(${index})">🗑</button>
-      </div>
-      <h3>${note.title || '(Untitled)'}</h3>
-      <div class="category">${note.category}</div>
-      <div>${note.text.replace(/\n/g,'<br>')}</div>
-    `;
-    container.appendChild(card);
+  // ---------- Toolbar / Rich text ----------
+  const toolbar = document.getElementById('toolbar');
+  toolbar.querySelectorAll('button[data-cmd]').forEach(btn => {
+    btn.addEventListener('mousedown', (e) => {
+      // prevent focus moving off the editor so selection stays
+      e.preventDefault();
+      const cmd = btn.dataset.cmd;
+      const val = btn.dataset.value || null;
+      // default to main composer if nothing focused
+      if (!currentEditor) currentEditor = document.getElementById('editor');
+      currentEditor.focus();
+      if (cmd === 'formatBlock' && val) {
+        document.execCommand(cmd, false, val);
+      } else {
+        document.execCommand(cmd, false, val);
+      }
+    });
   });
-}
 
-// Edit note
-function editNote(index) {
-  const note = notes[index];
-  const newTitle = prompt('Edit title:', note.title);
-  const newText = prompt('Edit note:', note.text);
-  if (newText !== null) {
-    notes[index].title = newTitle;
-    notes[index].text = newText;
-    localStorage.setItem('notesApp', JSON.stringify(notes));
-    renderNotes();
+  // placeholder behavior for the composer
+  const editor = document.getElementById('editor');
+  function updatePlaceholder(){
+    if (stripHtml(editor.innerHTML).trim().length === 0) {
+      editor.classList.add('placeholder');
+      if (!editor.innerHTML) editor.innerHTML = '';
+      editor.setAttribute('data-empty','true');
+    } else {
+      editor.classList.remove('placeholder');
+      editor.removeAttribute('data-empty');
+    }
   }
-}
+  editor.addEventListener('input', updatePlaceholder);
+  editor.addEventListener('focus', ()=> currentEditor = editor);
+  editor.addEventListener('blur', updatePlaceholder);
+  editor.addEventListener('paste', (e)=>{
+    // paste as plain text to keep things tidy
+    e.preventDefault();
+    const text = (e.clipboardData || window.clipboardData).getData('text');
+    document.execCommand('insertText', false, text);
+  });
+  updatePlaceholder();
 
-// Delete note
-function deleteNote(index) {
-  if (confirm('Delete this note?')) {
-    notes.splice(index,1);
-    localStorage.setItem('notesApp', JSON.stringify(notes));
-    renderNotes();
+  // Capture focus on any contenteditable (composer or inline cards)
+  document.addEventListener('focusin', (e)=>{ if (e.target.isContentEditable) currentEditor = e.target; });
+
+  // ---------- Create & Render ----------
+  const container = document.getElementById('notesContainer');
+
+  function renderNotes(filterStr=''){
+    container.innerHTML = '';
+    const f = (filterStr||'').toLowerCase();
+
+    const data = [...notes]
+      .sort((a,b)=> (b.pinned - a.pinned) || (b.date - a.date))
+      .filter(n => {
+        if (!f) return true;
+        return (n.title||'').toLowerCase().includes(f) || stripHtml(n.content||'').toLowerCase().includes(f);
+      });
+
+    data.forEach((n) => {
+      const card = document.createElement('div');
+      card.className = 'noteCard' + (n.pinned ? ' pinned' : '');
+      card.dataset.id = n.id;
+
+      const cat = findCat(n.category);
+
+      card.innerHTML = `
+        <div class="actions">
+          <button class="icon-btn" title="Pin" data-action="pin">📌</button>
+          <button class="icon-btn" title="Delete" data-action="delete">🗑</button>
+        </div>
+        <div class="chip" data-action="cycle-category" style="background:${cat.bg}; color:${cat.fg};">
+          <span>#{n.category}</span><small>• tap to change</small>
+        </div>
+        <div class="noteTitle" contenteditable="true">${n.title ? n.title.replace(/</g,'&lt;') : ''}</div>
+        <div class="noteContent" contenteditable="true">${n.content || ''}</div>
+        <div class="hint">Double‑click anywhere in the card to edit. Formatting shortcuts work here too.</div>
+      `;
+
+      // Inline edit handlers (autosave on input/blur)
+      const titleEl = card.querySelector('.noteTitle');
+      const contentEl = card.querySelector('.noteContent');
+
+      const saveInline = debounce(() => {
+        const id = card.dataset.id;
+        const idx = notes.findIndex(x => x.id === id);
+        if (idx !== -1) {
+          notes[idx].title = stripHtml(titleEl.innerHTML); // keep title plain
+          notes[idx].content = contentEl.innerHTML;        // keep content rich
+          notes[idx].date = Date.now();
+          saveAll();
+        }
+      }, 250);
+
+      ['input','blur','paste'].forEach(evt => {
+        titleEl.addEventListener(evt, saveInline);
+        contentEl.addEventListener(evt, saveInline);
+      });
+
+      // Keep toolbar targeting the active editor when user focuses these
+      titleEl.addEventListener('focus', () => currentEditor = titleEl);
+      contentEl.addEventListener('focus', () => currentEditor = contentEl);
+
+      // Card-level actions
+      card.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-action]');
+        if (!btn) return;
+        const action = btn.dataset.action;
+        if (action === 'delete') {
+          const id = card.dataset.id; notes = notes.filter(x => x.id !== id); saveAll(); renderNotes(f);
+        } else if (action === 'pin') {
+          const id = card.dataset.id; const item = notes.find(x => x.id === id); if (item) { item.pinned = !item.pinned; saveAll(); renderNotes(f);}        
+        } else if (action === 'cycle-category') {
+          const id = card.dataset.id; const idx = notes.findIndex(x => x.id === id);
+          if (idx !== -1) {
+            const cur = categories.findIndex(c => c.name === notes[idx].category);
+            const next = categories[(cur+1) % categories.length];
+            notes[idx].category = next.name; saveAll(); renderNotes(f);
+          }
+        }
+      });
+
+      // Make double-click put caret at end
+      card.addEventListener('dblclick', (e)=>{
+        const field = e.target.closest('.noteTitle, .noteContent');
+        if (field) {
+          const range = document.createRange();
+          range.selectNodeContents(field);
+          range.collapse(false);
+          const sel = window.getSelection();
+          sel.removeAllRanges(); sel.addRange(range);
+          field.focus();
+        }
+      });
+
+      container.appendChild(card);
+    });
   }
-}
 
-// Pin toggle
-function togglePin(index) {
-  notes[index].pinned = !notes[index].pinned;
-  localStorage.setItem('notesApp', JSON.stringify(notes));
+  // ---------- Create note flow ----------
+  document.getElementById('saveBtn').addEventListener('click', () => {
+    const title = document.getElementById('noteTitle').value.trim();
+    const content = editor.innerHTML.trim();
+    const category = document.getElementById('noteCategory').value;
+    if (!title && stripHtml(content).length === 0) return;
+
+    notes.push({
+      id: 'n-'+Date.now(),
+      title,
+      content,
+      category,
+      pinned: false,
+      date: Date.now()
+    });
+    saveAll();
+
+    // reset composer
+    document.getElementById('noteTitle').value = '';
+    editor.innerHTML = '';
+    updatePlaceholder();
+    renderNotes();
+  });
+
+  // Search
+  document.getElementById('searchBar').addEventListener('input', (e)=>{
+    renderNotes((e.target.value||'').toLowerCase());
+  });
+
+  // Init
+  migrateNotes();
   renderNotes();
-}
-
-// Toolbar functions
-function formatText(command) {
-  const textarea = document.getElementById('noteInput');
-  const start = textarea.selectionStart;
-  const end = textarea.selectionEnd;
-  let text = textarea.value;
-  let selected = text.substring(start,end);
-  let wrapped = selected;
-
-  if(command==='bold') wrapped = `**${selected}**`;
-  if(command==='italic') wrapped = `*${selected}*`;
-  if(command==='underline') wrapped = `__${selected}__`;
-
-  textarea.value = text.substring(0,start) + wrapped + text.substring(end);
-}
-function insertBullet() {
-  const textarea = document.getElementById('noteInput');
-  const start = textarea.selectionStart;
-  const text = textarea.value;
-  textarea.value = text.substring(0,start) + "• " + text.substring(start);
-}
-
-// Search
-document.getElementById('searchBar').addEventListener('input', e => {
-  renderNotes(e.target.value.toLowerCase());
-});
-
-// Init
-renderNotes();
 </script>
 </body>
 </html>
