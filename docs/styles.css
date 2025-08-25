@@ -1,167 +1,166 @@
 /* General Reset */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  /* Body */
-  body {
-    font-family: "Segoe UI", Roboto, Arial, sans-serif;
-    background: linear-gradient(135deg, #f9f9f9, #eef3f7);
-    color: #333;
-    line-height: 1.6;
-  }
-  
-  /* Header */
-  header {
-    background: linear-gradient(90deg, #4a90e2, #6a5acd);
-    color: white;
-    padding: 1.5rem;
-    text-align: center;
-    border-bottom: 4px solid #3333aa33;
-  }
-  
-  header h1 {
-    font-size: 2rem;
-    font-weight: bold;
-  }
-  
-  /* Navigation */
-  nav {
-    background: white;
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    padding: 0.75rem;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-    position: sticky;
-    top: 0;
-    z-index: 10;
-  }
-  
-  nav a {
-    text-decoration: none;
-    color: #555;
-    font-weight: 600;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    transition: all 0.2s ease-in-out;
-  }
-  
-  nav a:hover {
-    background: #4a90e2;
-    color: white;
-    transform: translateY(-2px);
-  }
-  
-  /* Main content */
-  main {
-    padding: 2rem;
-    max-width: 1100px;
-    margin: auto;
-  }
-  
-  /* Section cards */
-  section {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 16px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    transition: transform 0.2s ease;
-  }
-  
-  section:hover {
-    transform: translateY(-3px);
-  }
-  
-  /* Buttons */
-  button {
-    background: linear-gradient(90deg, #4a90e2, #6a5acd);
-    color: white;
-    border: none;
-    border-radius: 25px;
-    padding: 0.6rem 1.2rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-  
-  button:hover {
-    transform: translateY(-2px) scale(1.05);
-    opacity: 0.9;
-  }
-  
-  /* Textarea and Inputs */
-  textarea, input[type=text] {
-    width: 100%;
-    padding: 0.75rem;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    margin-bottom: 0.75rem;
-    font-size: 1rem;
-    transition: border 0.2s ease;
-  }
-  
-  textarea:focus, input[type=text]:focus {
-    outline: none;
-    border: 1px solid #4a90e2;
-    box-shadow: 0 0 5px #4a90e277;
-  }
-  
-  /* Task Board */
-  .board {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
-    margin-top: 1rem;
-  }
-  
-  .column {
-    background: #fefefe;
-    border-radius: 12px;
-    padding: 1rem;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    transition: background 0.2s ease;
-  }
-  
-  .column:hover {
-    background: #f8faff;
-  }
-  
-  .column h3 {
-    text-align: center;
-    margin-bottom: 1rem;
-    font-size: 1.1rem;
-    color: #4a90e2;
-  }
-  
-  /* Tasks */
-  .task {
-    background: #fff;
-    border-left: 5px solid #4a90e2;
-    border-radius: 8px;
-    padding: 0.75rem;
-    margin-bottom: 0.75rem;
-    font-size: 0.95rem;
-    cursor: grab;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  
-  .task:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  }
-  
-  /* Add Task Input Row */
-  .add-task {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-  }
-  
-  .add-task input {
-    flex: 1;
-  }
-  
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body */
+body {
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  background: linear-gradient(135deg, #f9f9f9, #eef3f7);
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Header */
+header {
+  background: linear-gradient(90deg, #4a90e2, #6a5acd);
+  color: white;
+  padding: 1.5rem;
+  text-align: center;
+  border-bottom: 4px solid #3333aa33;
+}
+
+header h1 {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+/* Navigation */
+nav {
+  background: white;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 0.75rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+nav a {
+  text-decoration: none;
+  color: #555;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  transition: all 0.2s ease-in-out;
+}
+
+nav a:hover {
+  background: #4a90e2;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Main content */
+main {
+  padding: 2rem;
+  max-width: 1100px;
+  margin: auto;
+}
+
+/* Section cards */
+section {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
+}
+
+section:hover {
+  transform: translateY(-3px);
+}
+
+/* Buttons */
+button {
+  background: linear-gradient(90deg, #4a90e2, #6a5acd);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 0.6rem 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-2px) scale(1.05);
+  opacity: 0.9;
+}
+
+/* Textarea and Inputs */
+textarea, input[type=text] {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+  transition: border 0.2s ease;
+}
+
+textarea:focus, input[type=text]:focus {
+  outline: none;
+  border: 1px solid #4a90e2;
+  box-shadow: 0 0 5px #4a90e277;
+}
+
+/* Task Board */
+.board {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.column {
+  background: #fefefe;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transition: background 0.2s ease;
+}
+
+.column:hover {
+  background: #f8faff;
+}
+
+.column h3 {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: #4a90e2;
+}
+
+/* Tasks */
+.task {
+  background: #fff;
+  border-left: 5px solid #4a90e2;
+  border-radius: 8px;
+  padding: 0.75rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+  cursor: grab;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.task:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Add Task Input Row */
+.add-task {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.add-task input {
+  flex: 1;
+}
