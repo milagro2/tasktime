@@ -1,37 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Notes</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notes</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  /* Notes section enhancements */
+  #noteColors {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .colorOption {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    transition: transform 0.2s;
+  }
+  .colorOption:hover {
+    transform: scale(1.2);
+  }
+  #notesContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .noteCard {
+    background: #fff;
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    position: relative;
+    word-wrap: break-word;
+    min-height: 80px;
+    transition: transform 0.2s;
+  }
+  .noteCard:hover {
+    transform: translateY(-2px);
+  }
+  .noteCard button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0,0,0,0.05);
+    color: #333;
+    border: none;
+    border-radius: 4px;
+    padding: 0.2rem 0.5rem;
+    cursor: pointer;
+    font-size: 0.8rem;
+    margin-left: 4px;
+  }
+  .noteCard button:hover {
+    background: rgba(0,0,0,0.1);
+  }
+</style>
 </head>
 <body>
-  <header>
-    <h1>Notes</h1>
-  </header>
+<header>
+  <h1>Notes</h1>
+</header>
 
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="notes.html">Notes</a>
-    <a href="tasks.html">Tasks</a>
-  </nav>
+<nav>
+  <a href="index.html">Home</a>
+  <a href="notes.html">Notes</a>
+  <a href="tasks.html">Tasks</a>
+</nav>
 
-  <main>
-    <section>
-      <h2>Things I Learned</h2>
-      <textarea id="notes" placeholder="Write your notes here..." style="width:100%; height:300px;"></textarea>
-      <br>
-      <button onclick="saveNotes()">Save Notes</button>
-    </section>
-  </main>
+<main>
+<section>
+  <h2>Create a Note</h2>
+  <textarea id="noteInput" placeholder="Write your note here..."></textarea>
+  <div id="noteColors">
+    <div class="colorOption" style="background:#fff176;" onclick="selectedColor='#fff176'"></div>
+    <div class="colorOption" style="background:#80deea;" onclick="selectedColor='#80deea'"></div>
+    <div class="colorOption" style="background:#f48fb1;" onclick="selectedColor='#f48fb1'"></div>
+    <div class="colorOption" style="background:#a5d6a7;" onclick="selectedColor='#a5d6a7'"></div>
+    <div class="colorOption" style="background:#ce93d8;" onclick="selectedColor='#ce93d8'"></div>
+  </div>
+  <button onclick="saveNote()">Save Note</button>
 
-  <script>
-    document.getElementById('notes').value = localStorage.getItem('notes') || '';
+  <div id="notesContainer"></div>
+</section>
+</main>
 
-    function saveNotes() {
-      localStorage.setItem('notes', document.getElementById('notes').value);
-    }
-  </script>
+<script>
+let selectedColor = '#fff176'; // default yellow
+let notes = JSON.parse(localStorage.getItem('notesApp')) || [];
+
+// Render notes
+function renderNotes() {
+  const container = document.getElementById('notesContainer');
+  container.innerHTML = '';
+  notes.forEach((note, index) => {
+    const noteCard = document.createElement('div');
+    noteCard.className = 'noteCard';
+    noteCard.style.background = note.color;
+    noteCard.innerHTML = `<div>${note.text}</div>
+                          <button onclick="editNote(${index})">Edit</button>
+                          <button onclick="deleteNote(${index})">Delete</button>`;
+    container.appendChild(noteCard);
+  });
+}
+
+// Save a new note
+function saveNote() {
+  const text = document.getElementById('noteInput').value.trim();
+  if (!text) return;
+  notes.push({text, color: selectedColor});
+  localStorage.setItem('notesApp', JSON.stringify(notes));
+  document.getElementById('noteInput').value = '';
+  renderNotes();
+}
+
+// Edit a note
+function editNote(index) {
+  const newText = prompt('Edit your note:', notes[index].text);
+  if (newText !== null) {
+    notes[index].text = newText;
+    localStorage.setItem('notesApp', JSON.stringify(notes));
+    renderNotes();
+  }
+}
+
+// Delete a note
+function deleteNote(index) {
+  if (confirm('Are you sure you want to delete this note?')) {
+    notes.splice(index, 1);
+    localStorage.setItem('notesApp', JSON.stringify(notes));
+    renderNotes();
+  }
+}
+
+// Initialize
+renderNotes();
+</script>
 </body>
 </html>
