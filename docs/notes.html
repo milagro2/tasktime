@@ -137,6 +137,14 @@ function deleteNote(index) {
   }
 }
 
+const btns = document.createElement('div');
+btns.className = 'note-buttons';
+btns.innerHTML = `
+  <button onclick="editNote('${noteObj.id}')">Edit</button>
+  <button onclick="deleteNote('${noteObj.id}')">Delete</button>
+`;
+note.appendChild(btns);
+
 // Initialize
 renderNotes();
 </script>

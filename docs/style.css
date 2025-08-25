@@ -79,6 +79,25 @@ textarea:focus {
   outline: none;
 }
 
+.note-buttons {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+.note-buttons button {
+  border: none;
+  background: rgba(0,0,0,0.05);
+  color: #333;
+  border-radius: 6px;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+.note-buttons button:hover {
+  background: rgba(0,0,0,0.1);
+}
+
+
 /* --- Buttons --- */
 button {
   background: #2575fc;
