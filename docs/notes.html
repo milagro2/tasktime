@@ -44,9 +44,6 @@
     transform: translateY(-2px);
   }
   .noteCard button {
-    position: absolute;
-    top: 8px;
-    right: 8px;
     background: rgba(0,0,0,0.05);
     color: #333;
     border: none;
@@ -54,10 +51,16 @@
     padding: 0.2rem 0.5rem;
     cursor: pointer;
     font-size: 0.8rem;
-    margin-left: 4px;
   }
   .noteCard button:hover {
     background: rgba(0,0,0,0.1);
+  }
+  .noteActions {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: flex;
+    gap: 6px;
   }
 </style>
 </head>
@@ -102,8 +105,10 @@ function renderNotes() {
     noteCard.className = 'noteCard';
     noteCard.style.background = note.color;
     noteCard.innerHTML = `<div>${note.text}</div>
-                          <button onclick="editNote(${index})">Edit</button>
-                          <button onclick="deleteNote(${index})">Delete</button>`;
+                          <div class="noteActions">
+                            <button onclick=\"editNote(${index})\">Edit</button>
+                            <button onclick=\"deleteNote(${index})\">Delete</button>
+                          </div>`;
     container.appendChild(noteCard);
   });
 }
@@ -136,14 +141,6 @@ function deleteNote(index) {
     renderNotes();
   }
 }
-
-const btns = document.createElement('div');
-btns.className = 'note-buttons';
-btns.innerHTML = `
-  <button onclick="editNote('${noteObj.id}')">Edit</button>
-  <button onclick="deleteNote('${noteObj.id}')">Delete</button>
-`;
-note.appendChild(btns);
 
 // Initialize
 renderNotes();
